@@ -1,13 +1,13 @@
 import {
-    ArrowLeft,
-    ChevronRight,
-    Home,
-    Minus,
-    Plus,
-    ShieldCheck,
-    ShoppingBag,
-    Trash2,
-    Truck,
+  ArrowLeft,
+  ChevronRight,
+  Home,
+  Minus,
+  Plus,
+  ShieldCheck,
+  ShoppingBag,
+  Trash2,
+  Truck,
 } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -151,7 +151,7 @@ import { useCart } from "../context/CartContext";
                 <div className="space-y-4 mb-8">
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-blue-100/70">Subtotal ({cartItems.length} Items)</span>
-                    <span className="font-bold">QAR {subtotal.toFixed(2)}</span>
+                    <span className="font-bold">USD {subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-blue-100/70">Shipping</span>
@@ -160,7 +160,7 @@ import { useCart } from "../context/CartContext";
                   <div className="h-[1px] bg-white/10 my-4"></div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-black uppercase">Total Amount</span>
-                    <span className="text-2xl font-black text-yellow-400 tracking-tighter">QAR {subtotal.toFixed(2)}</span>
+                    <span className="text-2xl font-black text-yellow-400 tracking-tighter">USD {subtotal.toFixed(2)}</span>
                   </div>
                 </div>
                 <button 
