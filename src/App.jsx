@@ -13,6 +13,12 @@ const SellWithUs = lazy(() => import("./pages/SellWithUs"));
 const ProductListing = lazy(() => import("./pages/ProductListing"));
 const Login = lazy(() => import("./pages/Login"));
 const Checkout = lazy(() => import("./pages/Checkout"));
+const Wishlist = lazy(() => import('./pages/Wishlist'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Orders = lazy(() => import('./pages/Orders'));
+const TrackOrder = lazy(() => import('./pages/TrackOrder'));
+const ContactUs = lazy(() => import('./pages/ContactUs'));
+
 
 // مكون شاشة التحميل (Loader) بتصميم NewTech الاحترافي
 const NewTechLoader = () => (
@@ -50,6 +56,11 @@ export default function App() {
             <Route path="/shop" element={<ProductListing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/track-order/:orderId" element={<TrackOrder />} />
+            <Route path="/contact" element={<ContactUs />} />
           </Routes>
         </Suspense>
       </Router>

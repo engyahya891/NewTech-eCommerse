@@ -1,11 +1,30 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  // --- 1. تهيئة البيانات من LocalStorage عند تحميل التطبيق ---
+  // نستخدم دالة داخل useState لكي تُنفذ مرة واحدة فقط عند البداية
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem('newtech_cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
-  // 1. إضافة منتج أو زيادة كميته إذا كان موجوداً
+  const [wishlistItems, setWishlistItems] = useState(() => {
+    const savedWishlist = localStorage.getItem('newtech_wishlist');
+    return savedWishlist ? JSON.parse(savedWishlist) : [];
+  });
+
+  // --- 2. التزامن التلقائي مع LocalStorage عند حدوث أي تغيير ---
+  useEffect(() => {
+    localStorage.setItem('newtech_cart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  useEffect(() => {
+    localStorage.setItem('newtech_wishlist', JSON.stringify(wishlistItems));
+  }, [wishlistItems]);
+
+  // ==================== وظائف السلة (Cart Functions) ====================
   const addToCart = (product) => {
     setCartItems((prev) => {
       const isExist = prev.find(item => item.id === product.id);
@@ -18,14 +37,12 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // 2. زيادة الكمية (+)
   const incrementQuantity = (id) => {
     setCartItems(prev => prev.map(item =>
       item.id === id ? { ...item, quantity: item.quantity + 1 } : item
     ));
   };
 
-  // 3. تقليل الكمية (-) بشرط ألا تقل عن 1
   const decrementQuantity = (id) => {
     setCartItems(prev => prev.map(item =>
       item.id === id && item.quantity > 1 
@@ -34,22 +51,33 @@ export const CartProvider = ({ children }) => {
     ));
   };
 
-  // 4. حذف منتج نهائياً من السلة
   const removeFromCart = (id) => {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
 
-  // 5. مسح السلة بالكامل
   const clearCart = () => setCartItems([]);
+
+  // ==================== وظائف المفضلة (Wishlist Functions) ====================
+  const addToWishlist = (product) => {
+    setWishlistItems((prev) => {
+      const isExist = prev.find((item) => item.id === product.id);
+      if (isExist) return prev.filter((item) => item.id !== product.id);
+      return [...prev, product];
+    });
+  };
+
+  const removeFromWishlist = (id) => {
+    setWishlistItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const isInWishlist = (id) => {
+    return wishlistItems.some((item) => item.id === id);
+  };
 
   return (
     <CartContext.Provider value={{ 
-      cartItems, 
-      addToCart, 
-      incrementQuantity, 
-      decrementQuantity, 
-      removeFromCart, 
-      clearCart 
+      cartItems, addToCart, incrementQuantity, decrementQuantity, removeFromCart, clearCart,
+      wishlistItems, addToWishlist, removeFromWishlist, isInWishlist 
     }}>
       {children}
     </CartContext.Provider>

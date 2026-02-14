@@ -1,6 +1,7 @@
 import {
   ChevronDown,
   ChevronRight,
+  Heart,
   LogIn,
   MapPin,
   Menu,
@@ -8,52 +9,47 @@ import {
   Package,
   Search,
   ShoppingBag,
-  Star,
   User,
   UserCircle,
-  X
+  X,
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-// استيراد مصفوفة البيانات الشاملة
 import { allProducts } from "../../data/index";
 
 const Header = () => {
   const { cartItems } = useCart();
   const location = useLocation();
-  
-  // States للتحكم في القوائم والبحث
+
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const searchRef = useRef(null);
 
-  // إغلاق القوائم عند تغيير الصفحة
   useEffect(() => {
     setIsUserMenuOpen(false);
     setIsMobileMenuOpen(false);
-    setSearchTerm(""); // تصفير البحث عند الانتقال لصفحة أخرى
+    setSearchTerm("");
   }, [location]);
 
-  // منطق البحث الذكي
   useEffect(() => {
     if (searchTerm.trim() === "") {
       setSearchResults([]);
       return;
     }
-
-    // فلترة المنتجات بناءً على الاسم أو الوصف
-    const filtered = allProducts.filter(product => 
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (product.desc && product.desc.toLowerCase().includes(searchTerm.toLowerCase()))
-    ).slice(0, 6); // عرض أول 6 نتائج فقط للسرعة وجمالية التصميم
-
+    const filtered = allProducts
+      .filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (product.desc &&
+            product.desc.toLowerCase().includes(searchTerm.toLowerCase()))
+      )
+      .slice(0, 6);
     setSearchResults(filtered);
   }, [searchTerm]);
 
-  // إغلاق نتائج البحث عند الضغط خارج منطقة البحث
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -65,11 +61,11 @@ const Header = () => {
   }, []);
 
   const menuItems = [
-    { icon: <UserCircle size={18} />, label: "My Profile" },
+    { icon: <UserCircle size={18} />, label: "My Profile" ,path:"/profile" },
     { icon: <MapPin size={18} />, label: "My Address" },
-    { icon: <Package size={18} />, label: "My Order" },
+    { icon: <Package size={18} />, label: "My Order" ,path:"/orders" },
     { icon: <MessageSquare size={18} />, label: "Complaints History" },
-    { icon: <Star size={18} />, label: "My Reviews" },
+    { icon: <Heart size={18} />, label: "My Wishlist", path: "/wishlist" },
   ];
 
   return (
@@ -77,7 +73,6 @@ const Header = () => {
       <div className="h-[120px] md:h-[165px] lg:h-[185px] w-full invisible pointer-events-none"></div>
 
       <header className="w-full font-sans fixed top-0 left-0 z-[100] shadow-2xl transition-all duration-300">
-        
         {/* 1. Top Bar */}
         <div className="bg-[#0f172a] py-1.5 border-b border-white/5 hidden md:block">
           <div className="container mx-auto px-4 flex justify-end gap-6 text-[11px] font-semibold text-blue-100/80 uppercase tracking-wider">
@@ -89,9 +84,11 @@ const Header = () => {
         {/* 2. Main Header */}
         <div className="bg-[#1e40af] py-3 md:py-4">
           <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-5">
-            
             <div className="flex items-center justify-between w-full md:w-auto gap-4">
-              <button onClick={() => setIsMobileMenuOpen(true)} className="text-white p-1 md:hidden hover:bg-white/10 rounded-lg">
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="text-white p-1 md:hidden hover:bg-white/10 rounded-lg"
+              >
                 <Menu size={28} />
               </button>
 
@@ -103,17 +100,22 @@ const Header = () => {
               </Link>
 
               <div className="flex items-center gap-3 md:hidden">
-                <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} className="text-white p-2 bg-white/10 rounded-full">
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="text-white p-2 bg-white/10 rounded-full"
+                >
                   <User size={20} />
                 </button>
                 <Link to="/cart" className="relative text-white p-2 bg-white/10 rounded-full">
                   <ShoppingBag size={20} />
-                  <span className="absolute -top-1 -right-1 bg-yellow-400 text-[#1e40af] text-[9px] font-black h-4 w-4 flex items-center justify-center rounded-full border border-[#1e40af]">{cartItems.length}</span>
+                  <span className="absolute -top-1 -right-1 bg-yellow-400 text-[#1e40af] text-[9px] font-black h-4 w-4 flex items-center justify-center rounded-full border border-[#1e40af]">
+                    {cartItems.length}
+                  </span>
                 </Link>
               </div>
             </div>
 
-            {/* Search Bar - محرك البحث الذكي */}
+            {/* Search Bar */}
             <div className="flex-1 w-full max-w-2xl relative" ref={searchRef}>
               <div className="relative group">
                 <input
@@ -128,14 +130,14 @@ const Header = () => {
                 </button>
               </div>
 
-              {/* نتائج البحث السريعة */}
+              {/* Search Results Dropdown */}
               {searchResults.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-gray-100 overflow-hidden z-[150] animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-[150]">
                   <div className="p-3 border-b border-gray-50 bg-gray-50/50 flex justify-between items-center">
                     <p className="text-[10px] font-black text-[#1e40af] uppercase tracking-widest">Matching Hardware</p>
                     <span className="text-[9px] bg-blue-100 text-[#1e40af] px-2 py-0.5 rounded-full font-bold">{searchResults.length} items</span>
                   </div>
-                  <div className="max-h-[350px] overflow-y-auto custom-scrollbar">
+                  <div className="max-h-[350px] overflow-y-auto">
                     {searchResults.map((product) => (
                       <Link
                         key={product.id}
@@ -147,16 +149,13 @@ const Header = () => {
                           <img src={product.image} alt={product.name} className="max-w-full max-h-full object-contain" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h5 className="text-xs font-bold text-gray-800 truncate group-hover:text-[#1e40af] transition-colors">{product.name}</h5>
-                          <p className="text-[11px] text-[#1e40af] font-black italic tracking-tighter mt-0.5">{product.price}</p>
+                          <h5 className="text-xs font-bold text-gray-800 truncate group-hover:text-[#1e40af]">{product.name}</h5>
+                          <p className="text-[11px] text-[#1e40af] font-black italic mt-0.5">{product.price}</p>
                         </div>
-                        <ChevronRight size={14} className="text-gray-300 group-hover:text-[#1e40af] group-hover:translate-x-1 transition-all" />
+                        <ChevronRight size={14} className="text-gray-300 group-hover:text-[#1e40af]" />
                       </Link>
                     ))}
                   </div>
-                  <button className="w-full py-3 bg-gray-50 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] hover:bg-[#1e40af] hover:text-white transition-all">
-                    View All Results
-                  </button>
                 </div>
               )}
             </div>
@@ -164,8 +163,13 @@ const Header = () => {
             {/* Actions Section (Desktop) */}
             <div className="hidden md:flex items-center gap-6 text-white">
               <div className="relative">
-                <button onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} className="flex items-center gap-2 font-bold hover:text-yellow-400 transition-all text-sm group uppercase tracking-tighter outline-none">
-                  <div className="p-2 bg-white/10 rounded-full group-hover:bg-white/20"><User size={20} /></div>
+                <button
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex items-center gap-2 font-bold hover:text-yellow-400 transition-all text-sm group uppercase tracking-tighter outline-none"
+                >
+                  <div className="p-2 bg-white/10 rounded-full group-hover:bg-white/20">
+                    <User size={20} />
+                  </div>
                   <span>Sign/Login</span>
                   <ChevronDown size={14} className={`transition-transform duration-300 ${isUserMenuOpen ? "rotate-180" : ""}`} />
                 </button>
@@ -177,10 +181,14 @@ const Header = () => {
                     </div>
                     <div className="py-2">
                       {menuItems.map((item, index) => (
-                        <div key={index} className="flex items-center gap-3 px-5 py-3 text-gray-600 hover:bg-blue-50 cursor-default group transition-colors">
+                        <Link
+                          key={index}
+                          to={item.path || "#"}
+                          className="flex items-center gap-3 px-5 py-3 text-gray-600 hover:bg-blue-50 hover:text-[#1e40af] transition-colors group"
+                        >
                           <span className="text-gray-300 group-hover:text-[#1e40af]">{item.icon}</span>
                           <span className="text-sm font-bold">{item.label}</span>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                     <div className="p-3 bg-gray-50">
@@ -194,7 +202,9 @@ const Header = () => {
 
               <Link to="/cart" className="relative hover:text-yellow-400 transition-all group">
                 <ShoppingBag size={24} />
-                <span className="absolute -top-1.5 -right-2 bg-yellow-400 text-[#1e40af] text-[10px] font-black h-5 w-5 flex items-center justify-center rounded-full border-2 border-[#1e40af]">{cartItems.length}</span>
+                <span className="absolute -top-1.5 -right-2 bg-yellow-400 text-[#1e40af] text-[10px] font-black h-5 w-5 flex items-center justify-center rounded-full border-2 border-[#1e40af]">
+                  {cartItems.length}
+                </span>
               </Link>
             </div>
           </div>
@@ -227,32 +237,29 @@ const Header = () => {
                    <Link to="/login" className="font-bold text-lg hover:text-yellow-400">Login / Register</Link>
                  </div>
               </div>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-white/10 rounded-full">
-                <X size={28} />
-              </button>
+              <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-white/10 rounded-full"><X size={28} /></button>
             </div>
             <div className="overflow-y-auto h-full pb-32">
               <div className="p-6 border-b border-gray-100">
                 <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 italic">My Account</h4>
                 <div className="space-y-4">
                   {menuItems.map((item, i) => (
-                    <div key={i} className="flex items-center justify-between group cursor-pointer text-gray-700 hover:text-[#1e40af]">
+                    <Link key={i} to={item.path || "#"} className="flex items-center justify-between group cursor-pointer text-gray-700 hover:text-[#1e40af]">
                       <div className="flex items-center gap-4">
                         <span className="text-gray-300 group-hover:text-[#1e40af]">{item.icon}</span>
                         <span className="font-bold text-sm">{item.label}</span>
                       </div>
                       <ChevronRight size={14} className="text-gray-300" />
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
-              {/* باقي أقسام المنيو ... */}
             </div>
           </div>
         </div>
       </header>
 
-      {/* الـ Dropdown المنبثق للموبايل */}
+      {/* User Dashboard Bottom Sheet (Mobile) */}
       {isUserMenuOpen && (
         <div className="fixed inset-0 z-[210] md:hidden">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsUserMenuOpen(false)}></div>
@@ -261,10 +268,10 @@ const Header = () => {
              <h3 className="text-xl font-black text-[#1e40af] uppercase italic tracking-tighter mb-6">User Dashboard</h3>
              <div className="space-y-6">
                 {menuItems.map((item, i) => (
-                  <div key={i} className="flex items-center gap-4 text-gray-700 font-bold">
+                  <Link key={i} to={item.path || "#"} className="flex items-center gap-4 text-gray-700 font-bold">
                     <span className="text-[#1e40af] bg-blue-50 p-2 rounded-lg">{item.icon}</span>
                     {item.label}
-                  </div>
+                  </Link>
                 ))}
                 <Link to="/login" className="flex items-center justify-center gap-2 w-full bg-[#1e40af] text-white py-4 rounded-2xl font-black uppercase shadow-xl mt-4">
                    <LogIn size={20}/> Login Now

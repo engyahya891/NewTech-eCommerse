@@ -1,5 +1,5 @@
 import { Heart, ShoppingCart } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
@@ -12,8 +12,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 const ProductCard = ({ product }) => {
-  const [liked, setLiked] = useState(false);
-  const { addToCart } = useCart();
+  // استدعاء الوظائف من الـ Context
+  const { addToCart, addToWishlist, isInWishlist } = useCart();
+  
+  // التحقق مما إذا كان المنتج في المفضلة برمجياً بدلاً من useState محلي
+  const isLiked = isInWishlist(product.id);
 
   return (
     <div className="py-4 h-full">
@@ -27,7 +30,7 @@ const ProductCard = ({ product }) => {
             />
             <button
               onClick={(e) => {
-                e.preventDefault();
+                e.preventDefault(); // منع الانتقال لصفحة المنتج
                 addToCart(product);
               }}
               className="absolute top-3 right-3 bg-[#FFD43B] p-2.5 rounded-full shadow-lg hover:scale-110 active:scale-95 transition-all z-10 md:opacity-0 md:translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
@@ -49,14 +52,21 @@ const ProductCard = ({ product }) => {
                 {product.price.replace("USD", "").trim()}
                 <span className="text-[10px] ml-1 text-gray-400 not-italic font-bold">USD</span>
               </p>
+              
+              {/* تعديل زر القلب ليرتبط بالـ Context */}
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  setLiked(!liked);
+                  addToWishlist(product); // استدعاء وظيفة الحفظ في المفضلة
                 }}
                 className="p-1.5 rounded-full hover:bg-red-50 transition-all active:scale-125"
               >
-                <Heart size={18} className={liked ? "fill-red-500 text-red-500" : "text-gray-200"} />
+                <Heart 
+                  size={18} 
+                  className={`transition-colors duration-300 ${
+                    isLiked ? "fill-red-500 text-red-500" : "text-gray-200"
+                  }`} 
+                />
               </button>
             </div>
           </div>
@@ -80,12 +90,11 @@ const ProductSection = ({ title, products }) => {
 
       <Swiper
         modules={[Navigation, Autoplay]}
-        spaceBetween={15} // المسافة بين الكروت
-        slidesPerView={1.3} // الموبايل الافتراضي
+        spaceBetween={15}
+        slidesPerView={1.3}
         autoplay={{ delay: 4000, disableOnInteraction: false }}
         navigation={true}
         breakpoints={{
-          // التجاوب الهندسي
           480: { slidesPerView: 2.2, spaceBetween: 15 },
           768: { slidesPerView: 3, spaceBetween: 20 },
           1024: { slidesPerView: 4, spaceBetween: 20 },
