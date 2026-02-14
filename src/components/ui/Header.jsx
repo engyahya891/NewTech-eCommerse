@@ -7,8 +7,10 @@ import {
   Menu,
   MessageSquare,
   Package,
+  PhoneCall,
   Search,
   ShoppingBag,
+  Store,
   User,
   UserCircle,
   X,
@@ -61,9 +63,9 @@ const Header = () => {
   }, []);
 
   const menuItems = [
-    { icon: <UserCircle size={18} />, label: "My Profile" ,path:"/profile" },
+    { icon: <UserCircle size={18} />, label: "My Profile", path: "/profile" },
     { icon: <MapPin size={18} />, label: "My Address" },
-    { icon: <Package size={18} />, label: "My Order" ,path:"/orders" },
+    { icon: <Package size={18} />, label: "My Order", path: "/orders" },
     { icon: <MessageSquare size={18} />, label: "Complaints History" },
     { icon: <Heart size={18} />, label: "My Wishlist", path: "/wishlist" },
   ];
@@ -229,6 +231,8 @@ const Header = () => {
         {/* Mobile Full Screen Menu */}
         <div className={`fixed inset-0 bg-[#0f172a]/60 backdrop-blur-sm z-[200] transition-opacity duration-300 ${isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}>
           <div className={`fixed inset-y-0 left-0 w-full max-w-sm bg-white shadow-2xl transition-transform duration-500 ease-out transform ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
+            
+            {/* Menu Header */}
             <div className="bg-[#1e40af] p-6 text-white flex items-center justify-between">
               <div className="flex items-center gap-3">
                  <div className="p-2 bg-white/20 rounded-full"><User size={24}/></div>
@@ -239,7 +243,11 @@ const Header = () => {
               </div>
               <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-white/10 rounded-full"><X size={28} /></button>
             </div>
+
+            {/* Menu Content */}
             <div className="overflow-y-auto h-full pb-32">
+              
+              {/* Account Section */}
               <div className="p-6 border-b border-gray-100">
                 <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 italic">My Account</h4>
                 <div className="space-y-4">
@@ -254,6 +262,40 @@ const Header = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Categories Section (تمت إعادتها) */}
+              <div className="p-6 border-b border-gray-100 bg-gray-50/50">
+                <h4 className="text-[10px] font-black text-[#1e40af] uppercase tracking-widest mb-4 italic">Shop Categories</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {["Electronics", "Mobiles", "Laptops", "Gaming", "Beauty", "Home"].map((cat) => (
+                    <Link key={cat} to={`/${cat.toLowerCase()}`} className="bg-white p-3 rounded-xl border border-gray-100 text-xs font-black text-center uppercase tracking-tighter hover:border-[#1e40af] transition-all">
+                      {cat}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Support & Sell (تمت إعادتها) */}
+              <div className="p-6 space-y-4">
+                <Link to="/sell" className="flex items-center gap-4 p-4 bg-yellow-50 rounded-2xl border border-yellow-100 group transition-all">
+                  <div className="p-2 bg-yellow-400 rounded-lg text-[#1e40af]"><Store size={20}/></div>
+                  <span className="font-black text-[#1e40af] text-sm uppercase tracking-widest">Sell With US</span>
+                </Link>
+                <Link to="/contact" className="flex items-center gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                  <div className="p-2 bg-[#1e40af] rounded-lg text-white"><PhoneCall size={20}/></div>
+                  <span className="font-black text-[#1e40af] text-sm uppercase tracking-widest">Contact Support</span>
+                </Link>
+              </div>
+
+              {/* Apps Download (تمت إعادتها) */}
+              <div className="p-6 text-center">
+                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Get the App</p>
+                 <div className="flex justify-center gap-4">
+                    <img src="/img/apple-store.webp" alt="ios" className="h-8 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all cursor-pointer" />
+                    <img src="/img/google-play.webp" alt="android" className="h-8 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all cursor-pointer" />
+                 </div>
+              </div>
+
             </div>
           </div>
         </div>
