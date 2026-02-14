@@ -157,3 +157,24 @@ export const largeCategoryGrid = [
   { id: 12, name: "Automation and Robotics", img: "/img/buyuk-cat-12.jpg" },
   { id: 13, name: "Cameras", img: "/img/buyuk-cat-13.jpg" },
 ];
+
+
+
+
+
+
+
+
+// أضف هذا في نهاية ملف src/data/index.js
+export const allProducts = [
+  ...newArrivalsData,
+  ...mobileData,
+  ...tvData,
+  ...gamingData,
+  ...headphoneData,
+  ...speakerData,
+  ...beautyData,
+  ...fragranceData,
+  ...kitchenData,
+  ...largeAppliancesData
+];
