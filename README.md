@@ -1,18 +1,49 @@
-# React + Vite
+# 🚀 NewTech - Modern E-Commerce Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**NewTech** is a high-performance, responsive e-commerce web application specialized in electronics and gadgets. This project showcases a complete architectural transformation from legacy HTML/Bootstrap to a modern **React.js** and **Tailwind CSS** ecosystem.
 
-Currently, two official plugins are available:
+![NewTech Preview](public/img/carousel-1.webp)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tech Stack
 
-## React Compiler
+- **Frontend:** React.js (Vite)
+- **Styling:** Tailwind CSS (Mobile-First Design)
+- **State Management:** React Context API
+- **Icons:** Lucide React
+- **Routing:** React Router v6
+- **Deployment:** Vercel
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## ✨ Key Engineering Features
 
-Note: This will impact Vite dev & build performances.
+- **Dynamic Cart System:** Fully functional cart using Context API for global state management (Add, Increment, Decrement, Remove).
+- **Intelligent Filtering:** Real-time product filtering system by category and brand without page reloads.
+- **Dynamic Product Routing:** Individual high-detail pages for products using dynamic IDs and URL parameters.
+- **Architectural Excellence:**
+  - Sticky/Fixed Navigation with Z-index management.
+  - Responsive Grid System (Mobile, Tablet, Desktop optimized).
+  - Clean Component Architecture for reusability.
+- **B2B Integration:** Specialized "Sell With Us" portal for vendor onboarding.
 
-## Expanding the ESLint configuration
+## 🚀 Live Demo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Check out the live application on Vercel: [**View Demo**](https://new-tech-wheat.vercel.app/)
+
+## 🔧 Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/engyahya891/NewTech-eCommerse](https://github.com/engyahya891/NewTech-eCommerse)
+
+
+   Install dependencies:
+   npm install
+
+
+
+   Start the development server:
+   npm run dev
+
+
+
+
+   Developed with 💻 and ☕ by Eng. Yahya Hamsho (Computer Engineering Student).
