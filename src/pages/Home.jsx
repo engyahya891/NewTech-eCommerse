@@ -1,10 +1,10 @@
 import React from "react";
-import Slider from "react-slick";
 import BannerGrid from "../components/ui/BannerGrid";
 import BrandsSection from "../components/ui/BrandsSection";
 import CategoryCircles from "../components/ui/CategoryCircles";
 import Footer from "../components/ui/Footer";
 import Header from "../components/ui/Header";
+import HeroSlider from "../components/ui/HeroSlider";
 import ProductSection from "../components/ui/ProductSection";
 
 // --- استيراد البيانات ---
@@ -16,45 +16,23 @@ import {
   gridImages1,
   gridImages2,
   headphoneData,
-  heroImages,
   kitchenData,
   largeAppliancesData,
   mobileData,
   newArrivalsData,
   speakerData,
-  tvData,
+  tvData
 } from "../data/index";
 
 const Home = () => {
-  const heroSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: false,
-  };
-
+  
   return (
     <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       <Header />
 
       {/* 1. Hero Slider */}
-      <div className="w-full bg-gray-100 mb-8">
-        <Slider {...heroSettings}>
-          {heroImages.map((imgSrc, index) => (
-            <div key={index} className="w-full outline-none">
-              <img
-                src={imgSrc}
-                alt="Banner"
-                className="w-full h-auto object-cover max-h-[400px] md:max-h-[500px]"
-              />
-            </div>
-          ))}
-        </Slider>
-      </div>
+      {/* 1. Hero Slider - NewTech Edition */}
+      <HeroSlider />
 
       {/* 2. All Categories */}
       <CategoryCircles />
@@ -135,7 +113,7 @@ const Home = () => {
 
       {/* ================== الاقسام الجديدة (تكملة الـ Index) ================== */}
 
-      <HomeFooter/>
+      <HomeFooter />
 
       {/* 20. الفوتر النهائي (الغامق) */}
       <Footer />
